@@ -37,7 +37,7 @@ const { actions, reducer } = createSlice({
 const setItem = window.localStorage.setItem.bind(localStorage)
 const removeItem = window.localStorage.removeItem.bind(localStorage)
 
-function * handleLoginAttempt ({ payload }) {
+function * onLoginAttempt ({ payload }) {
   try {
     const { data } = yield call(
       API.post, '/auth/login', {
@@ -52,24 +52,24 @@ function * handleLoginAttempt ({ payload }) {
   }
 }
 
-function * handleLoginSuccess ({ payload }) {
+function * onLoginSuccess ({ payload }) {
   yield call(updateToken, payload.token)
   yield call(setItem, 'currentUser', JSON.stringify(payload))
 }
 
-function * handleLogout ({ payload }) {
+function * onLogout ({ payload }) {
   yield call(removeItem, 'currentUser')
 }
 
-function * handleLoginRestored ({ payload }) {
+function * onLoginRestored ({ payload }) {
   yield call(updateToken, payload.token)
 }
 
 export function * saga () {
-  yield takeLatest('LOGIN_ATTEMPT', handleLoginAttempt)
-  yield takeLatest('LOGIN_SUCCESS', handleLoginSuccess)
-  yield takeLatest('LOGIN_RESTORED', handleLoginRestored)
-  yield takeLatest('LOGOUT', handleLogout)
+  yield takeLatest('LOGIN_ATTEMPT', onLoginAttempt)
+  yield takeLatest('LOGIN_SUCCESS', onLoginSuccess)
+  yield takeLatest('LOGIN_RESTORED', onLoginRestored)
+  yield takeLatest('LOGOUT', onLogout)
 }
 
 export const { LOGIN_ATTEMPT, LOGIN_SUCCESS, LOGIN_FAILED, LOGOUT, LOGIN_RESTORED } = actions

@@ -3,6 +3,8 @@ import { Route, Link, Switch, BrowserRouter as Router } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { LOGIN_RESTORED } from './ducks/auth'
 
+import './styles/global.scss'
+import Layout from './containers/Layout'
 import PrivateRoute from './containers/PrivateRoute'
 import Login from './containers/Login'
 
@@ -30,31 +32,17 @@ class App extends React.Component {
   }
   render () {
     return (
-      <Router>
-        <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to='/'> Home
-                </Link>
-              </li>
-              <li>
-                <Link to='/about'> About
-                </Link>
-              </li>
-            </ul>
-          </nav>
-          <Switch>
-            <Route path='/' exact component={Index} />
-            <Route path='/login' exact component={Login} />
-            <PrivateRoute
-              path='/about'
-              exact
-              component={About}
-              loggedIn={false} />
-          </Switch>
-        </div>
-      </Router>
+      <Layout>
+        <Switch>
+          <Route path='/' exact component={Index} />
+          <Route path='/login' exact component={Login} />
+          <PrivateRoute
+            path='/about'
+            exact
+            component={About}
+            loggedIn={false} />
+        </Switch>
+      </Layout>
     )
   }
 }
